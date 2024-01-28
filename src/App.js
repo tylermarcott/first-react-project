@@ -43,11 +43,24 @@ const App = () => {
         />
       </div>
 
-      <div className="container"> 
-        {/* calling our component and passing prop */}
-        <MovieCard movie1={movie1}/>
-      </div>
-
+      {
+        // ternary expression. If length of movies > 0, render the first div, else render the second.
+        movies?.length > 0
+          ? (
+            <div className="container"> 
+              {/* calling our component and passing prop */}
+              {/* <MovieCard movie1={movie1}/> */}
+              {/* NOTE: this maps out all the movies from our api call dynamically onto the MovieCard component */}
+              {movies.map((movie) => (
+                <MovieCard movie={movie}/>
+              ))}
+            </div>
+          ) : (
+            <div className="empty">
+              <h2>No movies found</h2>
+            </div>
+          )
+      }
     </div>
   );
 }
