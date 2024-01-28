@@ -9,10 +9,14 @@ import MovieCard from "./MovieCard.jsx";
 
 const API_URL = 'http://www.omdbapi.com?apikey=28b65a8c'
 
+// NOTE: can have multiple states and multiple effect hooks per component, there is no limit
+
 const App = () => {
   const [movies, setMovies] = useState([]);
+  // make sure to pass in empty string, because search term at the beginning will just be an empty string
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const movie1 = {Title: 'Death Is Hereditary', Year: '2009', imdbID: 'tt1512766', Type: 'movie', Poster: 'N/A'}
+  // const movie1 = {Title: 'Death Is Hereditary', Year: '2009', imdbID: 'tt1512766', Type: 'movie', Poster: 'N/A'}
 
   const searchMovies = async (title) => {
     const res = await fetch(`${API_URL}&s=${title}`)
@@ -32,14 +36,16 @@ const App = () => {
       <div className="search">
         <input
         placeholder="Search for movies"
-        value="Superman" 
-        onChange={() => {}}
+        // dynamic search for movies
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         />
         <img 
         // FIXME: this icon is not working
         src={SearchIcon}
         alt="search"
-        onClick={() => {}}
+        // pass search term into searchMovies, then when the search button is clicked, it will search for the term that is typed in.
+        onClick={() => searchMovies(searchTerm)}
         />
       </div>
 
@@ -52,6 +58,7 @@ const App = () => {
               {/* <MovieCard movie1={movie1}/> */}
               {/* NOTE: this maps out all the movies from our api call dynamically onto the MovieCard component */}
               {movies.map((movie) => (
+                // prop passed has to match the one in the component file
                 <MovieCard movie={movie}/>
               ))}
             </div>
